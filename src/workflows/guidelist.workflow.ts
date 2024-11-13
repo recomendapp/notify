@@ -10,7 +10,7 @@ export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload
 		body: translationService.translate('guidelist.sent.body', subscriber.locale, {
 			movieTitle: payload.movie.title
 		}),
-		avatar: payload.sender.avatar,
+		avatar: payload.sender.avatar || undefined,
 	}));
 }, {
 	payloadSchema: z.object({
@@ -18,6 +18,7 @@ export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload
 			username: z.string().describe('The user who sent the guidelist'),
 			avatar: z
 				.string()
+				.nullable()
 				.optional()
 				.describe('The avatar of the user who sent the guidelist')
 		}),
@@ -35,7 +36,7 @@ export const guidelistCompletedWorkflow = workflow('guidelist_completed', async 
 		body: translationService.translate('guidelist.completed.body', subscriber.locale, {
 			movieTitle: payload.movie.title
 		}),
-		avatar: payload.receiver.avatar,
+		avatar: payload.receiver.avatar || undefined,
 	}));
 }, {
 	payloadSchema: z.object({
@@ -43,6 +44,7 @@ export const guidelistCompletedWorkflow = workflow('guidelist_completed', async 
 			username: z.string().describe('The user who received the guidelist'),
 			avatar: z
 				.string()
+				.nullable()
 				.optional()
 				.describe('The avatar of the user who received the guidelist')
 		}),
