@@ -1,0 +1,12 @@
+{
+	"guidelist": {
+		"sent": {
+			"subject": "**{{userUsername}}** vous a recommandé un film",
+			"body": "**{{movieTitle}}**"
+		},
+		"completed": {
+			"subject": "{{userUsername}} a regardé le film que vous lui avez recommandé",
+			"body": "**{{movieTitle}}**"
+		}
+	}
+}

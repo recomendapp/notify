@@ -5,8 +5,6 @@ import Controller from './interfaces/controller.interface';
 import { errorMiddleware } from './middlewares/error.middleware';
 import { authMiddleware } from './middlewares/auth.middleware';
 import { guidelistSentWorkflow } from './workflows/guidelist.workflow';
-import i18next from 'i18next';
-import I18NexFsBackend from 'i18next-fs-backend';
 
 class App {
   public app: express.Application;
@@ -15,7 +13,6 @@ class App {
   constructor(controllers: Controller[]) {
     this.app = express();
 
-	this.initializeI18n();
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
     this.initializeErrorHandling();
@@ -29,16 +26,6 @@ class App {
 
   public getServer() {
     return this.app;
-  }
-
-  private initializeI18n() {
-	i18next.use(I18NexFsBackend).init({
-		lng: 'en-US',
-		fallbackLng: 'en-US',
-		backend: {
-		  loadPath: './messages/{{lng}}.json' // Chemin des fichiers de traduction
-		}
-	});
   }
 
   private initializeMiddlewares() {
