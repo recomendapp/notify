@@ -1,11 +1,11 @@
 {
 	"guidelist": {
 		"sent": {
-			"subject": "**{{userUsername}}** recomended you a movie",
+			"subject": "**@{{userUsername}}** recomended you a movie",
 			"body": "**{{movieTitle}}**"
 		},
 		"completed": {
-			"subject": "**{{userUsername}}** watched the reco you sent them",
+			"subject": "**@{{userUsername}}** watched the reco you sent them",
 			"body": "**{{movieTitle}}**"
 		}
 	}

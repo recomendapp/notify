@@ -53,3 +53,5 @@ export const guidelistCompletedWorkflow = workflow('guidelist_completed', async 
 		}),
 	})
 });
+
+export const guidelistWorkflows = [guidelistSentWorkflow, guidelistCompletedWorkflow];
