@@ -3,14 +3,24 @@ import { z } from 'zod';
 import { translationService } from "../lib/i18n";
 
 export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload, step, subscriber }) => {
-	const inAppResponse = await step.inApp('notify', (controls) => ({
-		subject: translationService.translate('guidelist.sent.subject', subscriber.locale, {
+	await step.inApp('notify-in-app', () => ({
+		subject: translationService.translate('guidelist.sent.in_app.subject', subscriber.locale, {
 			userUsername: payload.sender.username
 		}),
-		body: translationService.translate('guidelist.sent.body', subscriber.locale, {
+		body: translationService.translate('guidelist.sent.in_app.body', subscriber.locale, {
 			movieTitle: payload.movie.title
 		}),
 		avatar: payload.sender.avatar || undefined,
+	}));
+
+	await step.push('notify-push', () => ({
+		subject: translationService.translate('guidelist.sent.push.subject', subscriber.locale, {
+			userUsername: payload.sender.username
+		}),
+		body: translationService.translate('guidelist.sent.push.body', subscriber.locale, {
+			movieTitle: payload.movie.title
+		}),
+		
 	}));
 }, {
 	payloadSchema: z.object({
@@ -29,14 +39,23 @@ export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload
 });
 
 export const guidelistCompletedWorkflow = workflow('guidelist_completed', async ({ payload, step, subscriber }) => {
-	const inAppResponse = await step.inApp('notify', () => ({
-		subject: translationService.translate('guidelist.completed.subject', subscriber.locale, {
+	await step.inApp('notify-in-app', () => ({
+		subject: translationService.translate('guidelist.completed.in_app.subject', subscriber.locale, {
 			userUsername: payload.receiver.username
 		}),
-		body: translationService.translate('guidelist.completed.body', subscriber.locale, {
+		body: translationService.translate('guidelist.completed.in_app.body', subscriber.locale, {
 			movieTitle: payload.movie.title
 		}),
 		avatar: payload.receiver.avatar || undefined,
+	}));
+
+	await step.push('notify-push', () => ({
+		subject: translationService.translate('guidelist.completed.push.subject', subscriber.locale, {
+			userUsername: payload.receiver.username
+		}),
+		body: translationService.translate('guidelist.completed.push.body', subscriber.locale, {
+			movieTitle: payload.movie.title
+		})
 	}));
 }, {
 	payloadSchema: z.object({

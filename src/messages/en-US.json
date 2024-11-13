@@ -1,12 +1,24 @@
 {
 	"guidelist": {
 		"sent": {
-			"subject": "**@{{userUsername}}** recomended you a movie",
-			"body": "**{{movieTitle}}**"
+			"in_app": {
+				"subject": "**@{{userUsername}}** recomended you a movie",
+				"body": "**{{movieTitle}}**"
+			},
+			"push": {
+				"subject": "@{{userUsername}} recomended you a movie",
+				"body": "{{movieTitle}}"
+			}
 		},
 		"completed": {
-			"subject": "**@{{userUsername}}** watched the reco you sent them",
-			"body": "**{{movieTitle}}**"
+			"in_app": {
+				"subject": "**@{{userUsername}}** watched the reco you sent them",
+				"body": "**{{movieTitle}}**"
+			},
+			"push": {
+				"subject": "@{{userUsername}} watched the reco you sent them",
+				"body": "{{movieTitle}}"
+			}
 		}
 	}
 }

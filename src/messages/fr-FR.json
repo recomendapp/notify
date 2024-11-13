@@ -1,12 +1,24 @@
 {
 	"guidelist": {
 		"sent": {
-			"subject": "**{{userUsername}}** vous a recommandé un film",
-			"body": "**{{movieTitle}}**"
+			"in_app": {
+				"subject": "**@{{userUsername}}**  vous a recommandé un film",
+				"body": "**{{movieTitle}}**"
+			},
+			"push": {
+				"subject": "@{{userUsername}} vous a recommandé un film",
+				"body": "{{movieTitle}}"
+			}
 		},
 		"completed": {
-			"subject": "{{userUsername}} a regardé le film que vous lui avez recommandé",
-			"body": "**{{movieTitle}}**"
+			"in_app": {
+				"subject": "**@{{userUsername}}** a regardé le film que vous lui avez recommandé",
+				"body": "**{{movieTitle}}**"
+			},
+			"push": {
+				"subject": "@{{userUsername}} a regardé le film que vous lui avez recommandé",
+				"body": "{{movieTitle}}"
+			}
 		}
 	}
 }
