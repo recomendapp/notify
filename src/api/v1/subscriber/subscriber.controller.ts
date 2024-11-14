@@ -52,6 +52,7 @@ class SubscriberController implements Controller {
         .eq('user_id', record.user_id);
       if (errTokens) throw errTokens;
       manageFcmTokens(record.user_id, data.filter((token: any) => token.provider === 'fcm'));
+      res.send('Tokens managed');
     } catch (error) {
       next(error);
     }
