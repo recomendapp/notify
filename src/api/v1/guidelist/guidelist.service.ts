@@ -21,7 +21,7 @@ export const guidelistSent = async (req: Request, res: Response, next: NextFunct
 
 	const { data: movie, error: errMovie } = await supabase
 		.from('movie')
-		.select('title')
+		.select('title,slug')
 		.eq('id', record.movie_id)
 		.setHeader('language', data.receiver.language)
 		.single();
@@ -41,7 +41,8 @@ export const guidelistSent = async (req: Request, res: Response, next: NextFunct
 				avatar: data.sender?.avatar_url!
 			},
 			movie: {
-				title: movie?.title!
+				title: movie?.title!,
+				slug: movie?.slug!
 			}
 		},
 		overrides: {
@@ -83,7 +84,7 @@ export const guidelistCompleted = async (req: Request, res: Response, next: Next
 
 	const { data: movie, error: errMovie } = await supabase
 		.from('movie')
-		.select('title')
+		.select('title,slug')
 		.eq('id', record.movie_id)
 		.setHeader('language', data.sender.language)
 		.single();
@@ -103,7 +104,8 @@ export const guidelistCompleted = async (req: Request, res: Response, next: Next
 				avatar: data.receiver?.avatar_url!
 			},
 			movie: {
-				title: movie?.title!
+				title: movie?.title!,
+				slug: movie?.slug!
 			}
 		},
 		overrides: {

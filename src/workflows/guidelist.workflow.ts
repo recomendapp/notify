@@ -4,25 +4,25 @@ import { translationService } from "../lib/i18n";
 
 export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
-		subject: translationService.translate('guidelist.sent.in_app.subject', subscriber.locale, {
-			userUsername: payload.sender.username
-		}),
+		subject: translationService.translate('guidelist.sent.in_app.subject', subscriber.locale),
 		body: translationService.translate('guidelist.sent.in_app.body', subscriber.locale, {
-			movieTitle: payload.movie.title
+			userUsername: payload.sender.username,
+			movieTitle: payload.movie.title,
+			movieSlug: payload.movie.slug
 		}),
 		avatar: payload.sender.avatar || undefined,
 	}));
 
 	await step.push('notify-push', () => ({
-		subject: translationService.translate('guidelist.sent.push.subject', subscriber.locale, {
-			userUsername: payload.sender.username
-		}),
+		subject: translationService.translate('guidelist.sent.push.subject', subscriber.locale),
 		body: translationService.translate('guidelist.sent.push.body', subscriber.locale, {
+			userUsername: payload.sender.username,
 			movieTitle: payload.movie.title
 		}),
 		
 	}));
 }, {
+	tags: ['guidelist'],
 	payloadSchema: z.object({
 		sender: z.object({
 			username: z.string().describe('The user who sent the guidelist'),
@@ -32,32 +32,34 @@ export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload
 				.optional()
 				.describe('The avatar of the user who sent the guidelist')
 		}),
+		comment: z.string().optional().nullable().describe('The comment that was sent with the guidelist'),
 		movie: z.object({
-			title: z.string().describe('The movie that was recommended')
+			title: z.string().describe('The movie that was recommended'),
+			slug: z.string().describe('The slug of the movie that was recommended')
 		}),
 	})
 });
 
 export const guidelistCompletedWorkflow = workflow('guidelist_completed', async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
-		subject: translationService.translate('guidelist.completed.in_app.subject', subscriber.locale, {
-			userUsername: payload.receiver.username
-		}),
+		subject: translationService.translate('guidelist.completed.in_app.subject', subscriber.locale),
 		body: translationService.translate('guidelist.completed.in_app.body', subscriber.locale, {
-			movieTitle: payload.movie.title
+			userUsername: payload.receiver.username,
+			movieTitle: payload.movie.title,
+			movieSlug: payload.movie.slug
 		}),
 		avatar: payload.receiver.avatar || undefined,
 	}));
 
 	await step.push('notify-push', () => ({
-		subject: translationService.translate('guidelist.completed.push.subject', subscriber.locale, {
-			userUsername: payload.receiver.username
-		}),
+		subject: translationService.translate('guidelist.completed.push.subject', subscriber.locale),
 		body: translationService.translate('guidelist.completed.push.body', subscriber.locale, {
+			userUsername: payload.receiver.username,
 			movieTitle: payload.movie.title
 		})
 	}));
 }, {
+	tags: ['guidelist'],
 	payloadSchema: z.object({
 		receiver: z.object({
 			username: z.string().describe('The user who received the guidelist'),
@@ -68,7 +70,8 @@ export const guidelistCompletedWorkflow = workflow('guidelist_completed', async 
 				.describe('The avatar of the user who received the guidelist')
 		}),
 		movie: z.object({
-			title: z.string().describe('The movie that was recommended')
+			title: z.string().describe('The movie that was recommended'),
+			slug: z.string().describe('The slug of the movie that was recommended')
 		}),
 	})
 });
