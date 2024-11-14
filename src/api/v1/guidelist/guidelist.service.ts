@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { supabase } from "../../../lib/supabase";
 import { guidelistCompletedWorkflow, guidelistSentWorkflow } from "../../../workflows/guidelist.workflow";
 import { PostgrestError } from "@supabase/supabase-js";
+import { recomend } from "../../../config/recomend";
 
 export const guidelistSent = async (req: Request, res: Response, next: NextFunction) => {
 	const { record } = req.body;
@@ -42,7 +43,17 @@ export const guidelistSent = async (req: Request, res: Response, next: NextFunct
 			movie: {
 				title: movie?.title!
 			}
-		}
+		},
+		overrides: {
+			fcm: {
+				imageUrl: recomend.iconUrl[100],
+				webPush: {
+					fcmOptions: {
+					link: `/collection/guidelist#${record.id}`,
+					},
+			  	},
+			},
+		},
 	})
 
 	res.send('Guidelist sent');
@@ -94,7 +105,17 @@ export const guidelistCompleted = async (req: Request, res: Response, next: Next
 			movie: {
 				title: movie?.title!
 			}
-		}
+		},
+		overrides: {
+			fcm: {
+				imageUrl: recomend.iconUrl[100],
+				webPush: {
+					fcmOptions: {
+					link: `/film/${record.movie_id}`,
+					},
+			  	},
+			},
+		},
 	})
 
 	res.send('Guidelist completed');
