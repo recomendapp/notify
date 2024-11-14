@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import Controller from '../../../interfaces/controller.interface';
 import DBInvalidEventTypeError from '../../../errors/DBInvalidEventTypeError';
-import { insertSubscriber, deleteSubscriber, updateSubscriber } from './subscriber.service';
+import { insertSubscriber, deleteSubscriber, updateSubscriber, manageFcmTokens } from './subscriber.service';
+import { supabase } from '../../../lib/supabase';
 
 class SubscriberController implements Controller {
   public path = '/subscriber';
@@ -14,6 +15,7 @@ class SubscriberController implements Controller {
   private initializeRoutes() {
     this.router.get(this.path, this.getAllSubscribers);
     this.router.post(this.path, this.manageSubscriber);
+    this.router.post(`${this.path}/tokens`, this.manageTokens);
   }
 
   private getAllSubscribers = async (req: Request, res: Response) => {
@@ -36,6 +38,20 @@ class SubscriberController implements Controller {
         default:
           throw new DBInvalidEventTypeError(type);
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  private manageTokens = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { record } = req.body;
+      const { data, error: errTokens } = await supabase
+        .from('user_notification_tokens')
+        .select('*')
+        .eq('user_id', record.user_id);
+      if (errTokens) throw errTokens;
+      manageFcmTokens(record.user_id, data.filter((token: any) => token.provider === 'fcm'));
     } catch (error) {
       next(error);
     }

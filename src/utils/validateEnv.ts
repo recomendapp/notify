@@ -8,6 +8,7 @@ function validateEnv() {
 		NOVU_SECRET_KEY: str(),
 		SUPABASE_URL: str(),
 		SUPABASE_KEY: str(),
+		NOVU_PROVIDER_ID_FCM: str(),
 	});
 }
   

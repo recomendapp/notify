@@ -2378,6 +2378,54 @@ export type Database = {
           },
         ]
       }
+      user_notification_tokens: {
+        Row: {
+          created_at: string
+          device_type: Database["public"]["Enums"]["notifications_device_type"]
+          expires_at: string | null
+          id: number
+          provider: Database["public"]["Enums"]["notifications_provider"]
+          token: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_type: Database["public"]["Enums"]["notifications_device_type"]
+          expires_at?: string | null
+          id?: number
+          provider: Database["public"]["Enums"]["notifications_provider"]
+          token: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_type?: Database["public"]["Enums"]["notifications_device_type"]
+          expires_at?: string | null
+          id?: number
+          provider?: Database["public"]["Enums"]["notifications_provider"]
+          token?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_notification_tokens_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_notification_tokens_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_person_follower: {
         Row: {
           created_at: string
@@ -2557,6 +2605,26 @@ export type Database = {
           rating: number | null
           updated_at: string | null
           user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date?: string | null
+          id?: number | null
+          is_liked?: boolean | null
+          movie_id?: number | null
+          rating?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date?: string | null
+          id?: number | null
+          is_liked?: boolean | null
+          movie_id?: number | null
+          rating?: number | null
+          updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -2858,17 +2926,14 @@ export type Database = {
           avatar_url: string | null
           background_url: string | null
           bio: string | null
-          created_at: string | null
           favorite_color: string | null
           followers_count: number | null
           following_count: number | null
           full_name: string | null
           id: string | null
-          language: string | null
           premium: boolean | null
           private: boolean | null
           username: string | null
-          username_updated_at: string | null
           visible: boolean | null
           website: string | null
         }
@@ -2876,17 +2941,14 @@ export type Database = {
           avatar_url?: string | null
           background_url?: string | null
           bio?: string | null
-          created_at?: string | null
           favorite_color?: string | null
           followers_count?: number | null
           following_count?: number | null
           full_name?: string | null
           id?: string | null
-          language?: string | null
           premium?: boolean | null
           private?: boolean | null
           username?: string | null
-          username_updated_at?: string | null
           visible?: never
           website?: string | null
         }
@@ -2894,17 +2956,14 @@ export type Database = {
           avatar_url?: string | null
           background_url?: string | null
           bio?: string | null
-          created_at?: string | null
           favorite_color?: string | null
           followers_count?: number | null
           following_count?: number | null
           full_name?: string | null
           id?: string | null
-          language?: string | null
           premium?: boolean | null
           private?: boolean | null
           username?: string | null
-          username_updated_at?: string | null
           visible?: never
           website?: string | null
         }
@@ -3133,12 +3192,6 @@ export type Database = {
         }
         Returns: Record<string, unknown>
       }
-      generate_username: {
-        Args: {
-          user_details: unknown
-        }
-        Returns: string
-      }
       get_config: {
         Args: {
           user_id?: string
@@ -3277,12 +3330,20 @@ export type Database = {
         }
         Returns: boolean
       }
+      utils_generate_username: {
+        Args: {
+          user_details: unknown
+        }
+        Returns: string
+      }
     }
     Enums: {
       eventType: "INSERT" | "DELETE" | "UPDATE"
       guidelist_status: "active" | "completed" | "deleted"
       image_type: "backdrop" | "poster" | "logo" | "profile"
       language_app: "en-US" | "fr-FR"
+      notifications_device_type: "web" | "ios" | "android"
+      notifications_provider: "fcm"
       pricing_plan_interval: "day" | "week" | "month" | "year"
       pricing_type: "one_time" | "recurring"
       subscription_status:

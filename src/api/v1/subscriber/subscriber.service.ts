@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { novu } from "../../../lib/novu";
 import DBInvalidTableError from "../../../errors/DBInvalidTableError";
+import { PushProviderIdEnum } from "@novu/node";
+
+/* ------------------------------- Subscriber ------------------------------- */
 
 export const insertSubscriber = async (req: Request, res: Response, next: NextFunction) => {
   const { schema, table, record } = req.body;
@@ -69,3 +72,20 @@ export const updateSubscriber = async (req: Request, res: Response, next: NextFu
 		throw new DBInvalidTableError(schemaTable);
 	}
 }
+
+/* -------------------------------------------------------------------------- */
+
+/* --------------------------------- Tokens --------------------------------- */
+
+export const manageFcmTokens = async (user_id: string, tokens: any[]) => {
+	await novu.subscribers.setCredentials(
+		user_id,
+		PushProviderIdEnum.FCM,
+		{
+			deviceTokens: tokens.map((token) => token.token),
+		},
+		process.env.NOVU_PROVIDER_ID_FCM
+	)
+};
+
+/* -------------------------------------------------------------------------- */
