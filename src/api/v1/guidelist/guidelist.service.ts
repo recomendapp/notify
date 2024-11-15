@@ -100,6 +100,7 @@ export const guidelistCompleted = async (req: Request, res: Response, next: Next
 	await guidelistCompletedWorkflow.trigger({
 		to: record.sender_id,
 		payload: {
+			id: record.id,
 			receiver: {
 				username: data.receiver?.username!,
 				avatar: data.receiver?.avatar_url!

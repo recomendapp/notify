@@ -26,7 +26,7 @@ export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload
 }, {
 	tags: ['guidelist'],
 	payloadSchema: z.object({
-		id: z.string().describe('The id of the guidelist'),
+		id: z.number().int().describe('The ID of the guidelist'),
 		sender: z.object({
 			username: z.string().describe('The user who sent the guidelist'),
 			avatar: z
@@ -66,6 +66,7 @@ export const guidelistCompletedWorkflow = workflow('guidelist_completed', async 
 }, {
 	tags: ['guidelist'],
 	payloadSchema: z.object({
+		id: z.number().int().describe('The ID of the guidelist'),
 		receiver: z.object({
 			username: z.string().describe('The user who received the guidelist'),
 			avatar: z
