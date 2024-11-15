@@ -36,6 +36,7 @@ export const guidelistSent = async (req: Request, res: Response, next: NextFunct
 	await guidelistSentWorkflow.trigger({
 		to: record.user_id,
 		payload: {
+			id: record.id,
 			sender: {
 				username: data.sender?.username!,
 				avatar: data.sender?.avatar_url!

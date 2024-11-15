@@ -11,6 +11,9 @@ export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload
 			movieSlug: payload.movie.slug
 		}),
 		avatar: payload.sender.avatar || undefined,
+		redirect: {
+			url: `/collection/guidelist#${payload.id}`
+		}
 	}));
 
 	await step.push('notify-push', () => ({
@@ -19,11 +22,11 @@ export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload
 			userUsername: payload.sender.username,
 			movieTitle: payload.movie.title
 		}),
-		
 	}));
 }, {
 	tags: ['guidelist'],
 	payloadSchema: z.object({
+		id: z.string().describe('The id of the guidelist'),
 		sender: z.object({
 			username: z.string().describe('The user who sent the guidelist'),
 			avatar: z
@@ -32,7 +35,6 @@ export const guidelistSentWorkflow = workflow('guidelist_sent', async ({ payload
 				.optional()
 				.describe('The avatar of the user who sent the guidelist')
 		}),
-		comment: z.string().optional().nullable().describe('The comment that was sent with the guidelist'),
 		movie: z.object({
 			title: z.string().describe('The movie that was recommended'),
 			slug: z.string().describe('The slug of the movie that was recommended')
@@ -49,6 +51,9 @@ export const guidelistCompletedWorkflow = workflow('guidelist_completed', async 
 			movieSlug: payload.movie.slug
 		}),
 		avatar: payload.receiver.avatar || undefined,
+		redirect: {
+			url: `/@${payload.receiver.username}`,
+		}
 	}));
 
 	await step.push('notify-push', () => ({
