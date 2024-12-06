@@ -4,7 +4,7 @@ import { serve } from "@novu/framework/express";
 import Controller from './interfaces/controller.interface';
 import { errorMiddleware } from './middlewares/error.middleware';
 import { authMiddleware } from './middlewares/auth.middleware';
-import { guidelistWorkflows } from './workflows/guidelist.workflow';
+import { workflows } from './workflows';
 
 class App {
   public app: express.Application;
@@ -30,15 +30,13 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(bodyParser.json());
-	this.app.use("/novu", serve({ workflows: [
-		...guidelistWorkflows,
-	]}))
-	this.app.use((req, res, next) => {
-		if (!req.path.startsWith("/novu")) {
-		  return authMiddleware(req, res, next);
-		}
-		next();
-	});
+    this.app.use("/novu", serve({ workflows: workflows}))
+    this.app.use((req, res, next) => {
+      if (!req.path.startsWith("/novu")) {
+        return authMiddleware(req, res, next);
+      }
+      next();
+    });
   }
 
   private initializeErrorHandling() {

@@ -20,5 +20,39 @@
 				"body": "@{{userUsername}} a regardé {{movieTitle}} que vous lui avez reco"
 			}
 		}
+	},
+	"follower": {
+		"created": {
+			"in_app": {
+				"subject": "Nouveau follower",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** à commencé à vous suivre"
+			},
+			"push": {
+				"subject": "Nouveau follower",
+				"body": "@{{userUsername}} à commencé à vous suivre"
+			}
+		},
+		"request": {
+			"in_app": {
+				"subject": "Nouvelle demande de follower",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** à demandé à vous suivre",
+				"primary_action": "Accepter",
+				"secondary_action": "Refuser"
+			},
+			"push": {
+				"subject": "Nouvelle demande de follower",
+				"body": "@{{userUsername}} à demandé à vous suivre"
+			}
+		},
+		"accepted": {
+			"in_app": {
+				"subject": "Demande de follower acceptée",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** à accepté votre demande de follower"
+			},
+			"push": {
+				"subject": "Demande de follower acceptée",
+				"body": "@{{userUsername}} à accepté votre demande de follower"
+			}
+		}
 	}
 }

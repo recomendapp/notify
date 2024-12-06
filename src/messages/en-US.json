@@ -20,5 +20,39 @@
 				"body": "@{{userUsername}} watched {{movieTitle}} that you sent them"
 			}
 		}
+	},
+	"follower": {
+		"created": {
+			"in_app": {
+				"subject": "New follower",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** is now following you"
+			},
+			"push": {
+				"subject": "New follower",
+				"body": "@{{userUsername}} is now following you"
+			}
+		},
+		"request": {
+			"in_app": {
+				"subject": "New follower request",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** wants to follow you",
+				"primary_action": "Accept",
+				"secondary_action": "Decline"
+			},
+			"push": {
+				"subject": "New follower request",
+				"body": "@{{userUsername}} wants to follow you"
+			}
+		},
+		"accepted": {
+			"in_app": {
+				"subject": "Follower request accepted",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** accepted your follower request"
+			},
+			"push": {
+				"subject": "Follower request accepted",
+				"body": "@{{userUsername}} accepted your follower request"
+			}
+		}
 	}
 }

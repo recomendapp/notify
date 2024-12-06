@@ -51,7 +51,7 @@ export const guidelistSent = async (req: Request, res: Response, next: NextFunct
 				imageUrl: recomend.iconUrl[100],
 				webPush: {
 					fcmOptions: {
-					link: `/collection/guidelist#${record.id}`,
+						link: `/collection/guidelist#${record.id}`,
 					},
 			  	},
 			},
@@ -115,7 +115,7 @@ export const guidelistCompleted = async (req: Request, res: Response, next: Next
 				imageUrl: recomend.iconUrl[100],
 				webPush: {
 					fcmOptions: {
-					link: `/film/${record.movie_id}`,
+						link: `/film/${record.movie_id}`,
 					},
 			  	},
 			},
