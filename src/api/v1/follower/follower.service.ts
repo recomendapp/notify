@@ -34,7 +34,7 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 					imageUrl: recomend.iconUrl[100],
 					webPush: {
 						fcmOptions: {
-							link: `/@${record.sender.username}`,
+							link: `/@${data.sender.username}`,
 						},
 				  	},
 				},
@@ -57,7 +57,7 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 					imageUrl: recomend.iconUrl[100],
 					webPush: {
 						fcmOptions: {
-							link: `/@${record.sender.username}`,
+							link: `/@${data.sender.username}`,
 						},
 				  	},
 				},
@@ -100,7 +100,7 @@ export const followerAccepted = async (req: Request, res: Response, next: NextFu
 				imageUrl: recomend.iconUrl[100],
 				webPush: {
 					fcmOptions: {
-						link: `/@${record.followee.username}`,
+						link: `/@${data.followee.username}`,
 					},
 			  	},
 			},
