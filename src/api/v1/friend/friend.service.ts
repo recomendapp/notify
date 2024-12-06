@@ -20,7 +20,7 @@ export const friendCreated = async (req: Request, res: Response, next: NextFunct
 	}
 
 	await friendCreatedWorkflow.trigger({
-		to: record.followee_id,
+		to: record.user_id,
 		payload: {
 			id: record.id,
 			friend: {
