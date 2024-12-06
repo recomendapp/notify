@@ -54,5 +54,17 @@
 				"body": "@{{userUsername}} à accepté votre demande de follower"
 			}
 		}
+	},
+	"friend": {
+		"created": {
+			"in_app": {
+				"subject": "Nouvel ami",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** est désormais votre ami"
+			},
+			"push": {
+				"subject": "Nouvel ami",
+				"body": "@{{userUsername}} est désormais votre ami"
+			}
+		}
 	}
 }
