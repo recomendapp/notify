@@ -18,6 +18,7 @@ class FollowerController implements Controller {
   private follow = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { type } = req.body;
+	  console.log('New follower event:', type);
       switch (type.toLowerCase()) {
         case 'insert':
           await followerCreated(req, res, next);
