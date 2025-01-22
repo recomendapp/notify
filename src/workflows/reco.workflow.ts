@@ -12,7 +12,7 @@ export const recoSentWorkflow = workflow('reco_sent', async ({ payload, step, su
 		}),
 		avatar: payload.sender.avatar || undefined,
 		redirect: {
-			url: `/collection/recos#${payload.id}`
+			url: `/collection/my-recos#${payload.id}`
 		}
 	}));
 

@@ -61,7 +61,7 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 				imageUrl: recomend.iconUrl[100],
 				webPush: {
 					fcmOptions: {
-						link: `/collection/recos#${record.id}`,
+						link: `/collection/my-recos#${record.id}`,
 					},
 			  	},
 			},
