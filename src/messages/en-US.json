@@ -21,6 +21,28 @@
 			}
 		}
 	},
+	"reco": {
+		"sent": {
+			"in_app": {
+				"subject": "New reco !",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** reco you **[{{mediaTitle}}]({{mediaUrl}})**"
+			},
+			"push": {
+				"subject": "New reco !",
+				"body": "@{{userUsername}} reco you {{mediaTitle}}"
+			}
+		},
+		"completed": {
+			"in_app": {
+				"subject": "Your reco was completed",
+				"body": "**[@{{userUsername}}](/@{{userUsername}})** watched **[{{mediaTitle}}]({{mediaUrl}})** that you sent them"
+			},
+			"push": {
+				"subject": "Your reco was completed",
+				"body": "@{{userUsername}} watched {{mediaTitle}} that you sent them"
+			}
+		}
+	},
 	"follower": {
 		"created": {
 			"in_app": {
