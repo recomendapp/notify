@@ -20,7 +20,7 @@ export const guidelistSent = async (req: Request, res: Response, next: NextFunct
 	}
 
 	const { data: movie, error: errMovie } = await supabase
-		.from('movie')
+		.from('media_movie')
 		.select('title,slug')
 		.eq('id', record.movie_id)
 		.setHeader('language', data.receiver.language)
@@ -84,7 +84,7 @@ export const guidelistCompleted = async (req: Request, res: Response, next: Next
 	}
 
 	const { data: movie, error: errMovie } = await supabase
-		.from('movie')
+		.from('media_movie')
 		.select('title,slug')
 		.eq('id', record.movie_id)
 		.setHeader('language', data.sender.language)

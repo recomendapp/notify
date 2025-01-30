@@ -20,9 +20,11 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 	}
 
 	const { data: media, error: errMedia } = await supabase
-		.rpc('find_media', { media_id: record.media_id, media_type: record.media_type })
+		.from('media')
+		.select('*')
+		.eq('media_id', record.media_id)
 		.setHeader('language', data.receiver.language)
-		.returns<any>();
+		.single()
 
 	if (errMedia || !media) {
 		if (errMedia)
@@ -40,20 +42,8 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 				avatar: data.sender?.avatar_url!
 			},
 			media: {
-				title: media.media_type === 'movie'
-					? media.title
-					: media.media_type === 'tv_serie'
-					? media.name
-					: media.media_type === 'person'
-					? media.name
-					: '', // TODO: Add more media types
-				url: media.media_type === 'movie'
-					? `/film/${media.slug ?? media.id}`
-					: media.media_type === 'tv_serie'
-					? `/serie/${media.slug ?? media.id}`
-					: media.media_type === 'person'
-					? `/person/${media.slug ?? media.id}`
-					: '', // TODO: Add more media types
+				title: media.title ?? String(media.media_id),
+				url: media.url ?? ''
 			}
 		},
 		overrides: {
@@ -94,9 +84,11 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 	}
 
 	const { data: media, error: errMedia } = await supabase
-		.rpc('find_media', { media_id: record.media_id, media_type: record.media_type })
-		.setHeader('language', data.receiver.language)
-		.returns<any>();
+		.from('media')
+		.select('*')
+		.eq('media_id', record.media_id)
+		.setHeader('language', data.sender.language)
+		.single()
 	
 	if (errMedia || !media) {
 		if (errMedia)
@@ -114,20 +106,8 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 				avatar: data.receiver?.avatar_url!
 			},
 			media: {
-				title: media.media_type === 'movie'
-					? media.title
-					: media.media_type === 'tv_serie'
-					? media.name
-					: media.media_type === 'person'
-					? media.name
-					: '', // TODO: Add more media types
-				url: media.media_type === 'movie'
-					? `/film/${media.slug ?? media.id}`
-					: media.media_type === 'tv_serie'
-					? `/serie/${media.slug ?? media.id}`
-					: media.media_type === 'person'
-					? `/person/${media.slug ?? media.id}`
-					: '', // TODO: Add more media types
+				title: media.title ?? String(media.media_id),
+				url: media.url ?? ''
 			}
 		},
 		overrides: {
@@ -135,8 +115,7 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 				imageUrl: recomend.iconUrl[100],
 				webPush: {
 					fcmOptions: {
-						link: ``,
-						// link: `/film/${record.movie_id}`,
+						link: media.url,
 					},
 			  	},
 			},
