@@ -1,26 +1,4 @@
 {
-	"guidelist": {
-		"sent": {
-			"in_app": {
-				"subject": "Nouvelle reco !",
-				"body": "**[@{{userUsername}}](/@{{userUsername}})** vous a reco **[{{movieTitle}}](/film/{{movieSlug}})**"
-			},
-			"push": {
-				"subject": "Nouvelle reco !",
-				"body": "@{{userUsername}} vous a reco {{movieTitle}}"
-			}
-		},
-		"completed": {
-			"in_app": {
-				"subject": "Votre reco a été regardée",
-				"body": "**[@{{userUsername}}](/@{{userUsername}})** a regardé **[{{movieTitle}}](/film/{{movieSlug}})** que vous lui avez reco"
-			},
-			"push": {
-				"subject": "Votre reco a été regardée",
-				"body": "@{{userUsername}} a regardé {{movieTitle}} que vous lui avez reco"
-			}
-		}
-	},
 	"reco": {
 		"sent": {
 			"in_app": {
