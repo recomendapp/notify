@@ -21,7 +21,6 @@ Nothing yet.
 ## ✉️ Supported notification types (routes):
 - follower — when someone follows a user
 - friend — for friend requests or acceptances
-- guidelist — updates related to guide lists (DEPRECATED)
 - reco — new recommendations between users
 - subscriber — subscriber-related events
 
