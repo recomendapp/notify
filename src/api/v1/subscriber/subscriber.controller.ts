@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import Controller from '../../../interfaces/controller.interface';
 import DBInvalidEventTypeError from '../../../errors/DBInvalidEventTypeError';
-import { insertSubscriber, deleteSubscriber, updateSubscriber, manageFcmTokens } from './subscriber.service';
+import { insertSubscriber, deleteSubscriber, updateSubscriber, manageFcmTokens, manageExpoTokens, manageAPNSTokens } from './subscriber.service';
 import { supabase } from '../../../lib/supabase';
 
 class SubscriberController implements Controller {
@@ -51,7 +51,11 @@ class SubscriberController implements Controller {
         .select('*')
         .eq('user_id', record.user_id);
       if (errTokens) throw errTokens;
-      manageFcmTokens(record.user_id, data.filter((token: any) => token.provider === 'fcm'));
+      await Promise.all([
+        manageFcmTokens(record.user_id, data.filter((token: any) => token.provider === 'fcm')),
+        manageExpoTokens(record.user_id, data.filter((token: any) => token.provider === 'expo')),
+        manageAPNSTokens(record.user_id, data.filter((token: any) => token.provider === 'apns')),
+      ]);
       res.send('Tokens managed');
     } catch (error) {
       next(error);

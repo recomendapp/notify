@@ -78,6 +78,7 @@ export const updateSubscriber = async (req: Request, res: Response, next: NextFu
 /* --------------------------------- Tokens --------------------------------- */
 
 export const manageFcmTokens = async (user_id: string, tokens: any[]) => {
+	if (tokens.length === 0) return;
 	await novu.subscribers.setCredentials(
 		user_id,
 		PushProviderIdEnum.FCM,
@@ -85,7 +86,31 @@ export const manageFcmTokens = async (user_id: string, tokens: any[]) => {
 			deviceTokens: tokens.map((token) => token.token),
 		},
 		process.env.NOVU_PROVIDER_ID_FCM
-	)
+	);
+};
+
+export const manageExpoTokens = async (user_id: string, tokens: any[]) => {
+	if (tokens.length === 0) return;
+	await novu.subscribers.setCredentials(
+		user_id,
+		PushProviderIdEnum.EXPO,
+		{
+			deviceTokens: tokens.map((token) => token.token),
+		},
+		process.env.NOVU_PROVIDER_ID_EXPO
+	);
+};
+
+export const manageAPNSTokens = async (user_id: string, tokens: any[]) => {
+	if (tokens.length === 0) return;
+	await novu.subscribers.setCredentials(
+		user_id,
+		PushProviderIdEnum.APNS,
+		{
+			deviceTokens: tokens.map((token) => token.token),
+		},
+		process.env.NOVU_PROVIDER_ID_APNS
+	);
 };
 
 /* -------------------------------------------------------------------------- */
