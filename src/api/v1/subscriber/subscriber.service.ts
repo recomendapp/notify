@@ -34,10 +34,11 @@ export const insertSubscriber = async (req: Request, res: Response, next: NextFu
 }
 
 export const deleteSubscriber = async (req: Request, res: Response, next: NextFunction) => {
-	  const { schema, table, record } = req.body;
+	const { schema, table, record, old_record } = req.body;
 
 	const schemaTable = `${schema}.${table}`;
-	const subscriberId = record.id;
+	const subscriberId = record?.id ?? old_record?.id;
+    if (!subscriberId) return res.status(400).send('Missing subscriber ID');
 
 	if (schemaTable === 'auth.users') {
 		await novu.subscribers.delete(subscriberId);

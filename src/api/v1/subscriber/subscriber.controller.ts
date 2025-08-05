@@ -45,8 +45,8 @@ class SubscriberController implements Controller {
 
   private manageTokens = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { record } = req.body;
-      console.log('req.body: ', req.body);
+      const record = req.body.record ?? req.body.old_record;
+      if (!record?.user_id) return res.status(400).send('Invalid payload: missing user_id');
       const { data, error: errTokens } = await supabase
         .from('user_notification_tokens')
         .select('*')
