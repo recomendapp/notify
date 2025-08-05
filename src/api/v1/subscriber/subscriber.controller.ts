@@ -46,7 +46,7 @@ class SubscriberController implements Controller {
   private manageTokens = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { record } = req.body;
-      console.log('Managing tokens for user:', record.user_id);
+      console.log('req.body: ', req.body);
       const { data, error: errTokens } = await supabase
         .from('user_notification_tokens')
         .select('*')
