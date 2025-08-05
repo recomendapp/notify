@@ -16,9 +16,9 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 		throw new Error(errFollower?.message ?? 'Record not found');
 	}
 
-	const commonPayload = {
+	const payload = {
 		id: record.id,
-		type: NotificationTypeEnum.follower_created,
+		type: record.is_pending ? NotificationTypeEnum.follower_request : NotificationTypeEnum.follower_created,
 		sender: {
 			username: data.sender.username!,
 			avatar: data.sender.avatar_url!
@@ -33,15 +33,21 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 			},
 		},
 	};
+	const apnsOptions = {
+		payload: {
+			aps: {
+				sound: 'default',
+				data: payload,
+			},
+		},
+	};
 
 	if (record.is_pending) {
 		await followerRequestWorkflow.trigger({
 			to: record.followee_id,
-			payload: {
-				...commonPayload,
-				type: NotificationTypeEnum.follower_request,
-			},
+			payload: payload,
 			overrides: {
+				apns: apnsOptions,
 				fcm: fcmOptions,
 			},
 		});
@@ -50,8 +56,9 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 	} else {
 		await followerCreatedWorkflow.trigger({
 			to: record.followee_id,
-			payload: commonPayload,
+			payload: payload,
 			overrides: {
+				apns: apnsOptions,
 				fcm: fcmOptions,
 			},
 		});
@@ -78,25 +85,38 @@ export const followerAccepted = async (req: Request, res: Response, next: NextFu
 			throw new Error('Record not found');
 	}
 
+	const payload = {
+		id: record.id,
+		type: NotificationTypeEnum.follower_accepted,
+		sender: {
+			username: data.followee.username!,
+			avatar: data.followee.avatar_url!
+		}
+	};
+
+	const fcmOptions = {
+		imageUrl: recomend.iconUrl[100],
+		webPush: {
+			fcmOptions: {
+				link: `/@${data.followee.username}`,
+			},
+		},
+	};
+	const apnsOptions = {
+		payload: {
+			aps: {
+				sound: 'default',
+				data: payload,
+			},
+		},
+	};
+
 	await followerAcceptedWorkflow.trigger({
 		to: record.user_id,
-		payload: {
-			id: record.id,
-			type: NotificationTypeEnum.follower_accepted,
-			sender: {
-				username: data.followee.username!,
-				avatar: data.followee.avatar_url!
-			}
-		},
+		payload: payload,
 		overrides: {
-			fcm: {
-				imageUrl: recomend.iconUrl[100],
-				webPush: {
-					fcmOptions: {
-						link: `/@${data.followee.username}`,
-					},
-			  	},
-			},
+			apns: apnsOptions,
+			fcm: fcmOptions,
 		},
 	});
 
