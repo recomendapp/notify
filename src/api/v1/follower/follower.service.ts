@@ -35,9 +35,6 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 	};
 	const apnsOptions = {
 		payload: {
-			aps: {
-				sound: 'default',
-			},
 			data: payload,
 		},
 	};
@@ -104,9 +101,6 @@ export const followerAccepted = async (req: Request, res: Response, next: NextFu
 	};
 	const apnsOptions = {
 		payload: {
-			aps: {
-				sound: 'default',
-			},
 			data: payload,
 		},
 	};

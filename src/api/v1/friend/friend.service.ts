@@ -19,25 +19,34 @@ export const friendCreated = async (req: Request, res: Response, next: NextFunct
 			throw new Error('Record not found');
 	}
 
+	const payload = {
+		id: record.id,
+		type: NotificationTypeEnum.friend_created,
+		friend: {
+			username: data.friend.username!,
+			avatar: data.friend.avatar_url!
+		}
+	};
+	const fcmOptions = {
+		imageUrl: recomend.iconUrl[100],
+		webPush: {
+			fcmOptions: {
+				link: `/@${data.friend.username}`,
+			},
+		},
+	};
+	const apnsOptions = {
+		payload: {
+			data: payload,
+		},
+	};
+
 	await friendCreatedWorkflow.trigger({
 		to: record.user_id,
-		payload: {
-			id: record.id,
-			type: NotificationTypeEnum.friend_created,
-			friend: {
-				username: data.friend.username!,
-				avatar: data.friend.avatar_url!
-			}
-		},
+		payload: payload,
 		overrides: {
-			fcm: {
-				imageUrl: recomend.iconUrl[100],
-				webPush: {
-					fcmOptions: {
-						link: `/@${data.friend.username}`,
-					},
-				},
-			},
+			apns: apnsOptions,
+			fcm: fcmOptions,
 		},
 	});
 

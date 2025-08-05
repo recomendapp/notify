@@ -33,29 +33,38 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 			throw new Error('Media not found');
 	}
 
+	const payload = {
+		id: record.id,
+		type: NotificationTypeEnum.reco_sent,
+		sender: {
+			username: data.sender?.username!,
+			avatar: data.sender?.avatar_url!
+		},
+		media: {
+			title: media.title ?? String(media.media_id),
+			url: media.url ?? ''
+		}
+	};
+	const fcmOptions = {
+		imageUrl: recomend.iconUrl[100],
+		webPush: {
+			fcmOptions: {
+				link: media.url,
+			},
+		},
+	};
+	const apnsOptions = {
+		payload: {
+			data: payload,
+		},
+	};
+
 	await recoSentWorkflow.trigger({
 		to: record.user_id,
-		payload: {
-			id: record.id,
-			type: NotificationTypeEnum.reco_sent,
-			sender: {
-				username: data.sender?.username!,
-				avatar: data.sender?.avatar_url!
-			},
-			media: {
-				title: media.title ?? String(media.media_id),
-				url: media.url ?? ''
-			}
-		},
+		payload: payload,
 		overrides: {
-			fcm: {
-				imageUrl: recomend.iconUrl[100],
-				webPush: {
-					fcmOptions: {
-						link: `/collection/my-recos#${record.id}`,
-					},
-			  	},
-			},
+			apns: apnsOptions,
+			fcm: fcmOptions,
 		},
 	})
 
@@ -98,29 +107,38 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 			throw new Error('Media not found');
 	}
 
+	const payload = {
+		id: record.id,
+		type: NotificationTypeEnum.reco_completed,
+		receiver: {
+			username: data.receiver?.username!,
+			avatar: data.receiver?.avatar_url!
+		},
+		media: {
+			title: media.title ?? String(media.media_id),
+			url: media.url ?? ''
+		}
+	};
+	const fcmOptions = {
+		imageUrl: recomend.iconUrl[100],
+		webPush: {
+			fcmOptions: {
+				link: media.url,
+			},
+		},
+	};
+	const apnsOptions = {
+		payload: {
+			data: payload,
+		},
+	};
+
 	await recoCompletedWorkflow.trigger({
 		to: record.sender_id,
-		payload: {
-			id: record.id,
-			type: NotificationTypeEnum.reco_completed,
-			receiver: {
-				username: data.receiver?.username!,
-				avatar: data.receiver?.avatar_url!
-			},
-			media: {
-				title: media.title ?? String(media.media_id),
-				url: media.url ?? ''
-			}
-		},
+		payload: payload,
 		overrides: {
-			fcm: {
-				imageUrl: recomend.iconUrl[100],
-				webPush: {
-					fcmOptions: {
-						link: media.url,
-					},
-			  	},
-			},
+			apns: apnsOptions,
+			fcm: fcmOptions,
 		},
 	})
 
