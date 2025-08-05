@@ -37,8 +37,8 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 		payload: {
 			aps: {
 				sound: 'default',
-				data: payload,
 			},
+			data: payload,
 		},
 	};
 
@@ -106,8 +106,8 @@ export const followerAccepted = async (req: Request, res: Response, next: NextFu
 		payload: {
 			aps: {
 				sound: 'default',
-				data: payload,
 			},
+			data: payload,
 		},
 	};
 
