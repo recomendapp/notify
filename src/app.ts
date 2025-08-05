@@ -20,7 +20,7 @@ class App {
 
   public listen() {
     this.app.listen(this.port, () => {
-      console.log(`App listening on the port ${process.env.PORT}`);
+      console.log(`App listening on the port ${this.port}`);
     });
   }
 
@@ -30,9 +30,9 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(bodyParser.json());
-    this.app.use("/novu", serve({ workflows: workflows}))
+    this.app.use("/api/novu", serve({ workflows: workflows}))
     this.app.use((req, res, next) => {
-      if (!req.path.startsWith("/novu")) {
+      if (!req.path.startsWith("/api/novu")) {
         return authMiddleware(req, res, next);
       }
       next();

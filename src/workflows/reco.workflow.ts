@@ -1,8 +1,9 @@
 import { workflow } from "@novu/framework";
 import { z } from 'zod';
 import { translationService } from "../lib/i18n";
+import { NotificationTypeEnum } from "../types/type.db";
 
-export const recoSentWorkflow = workflow('reco_sent', async ({ payload, step, subscriber }) => {
+export const recoSentWorkflow = workflow(NotificationTypeEnum.reco_sent, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
 		subject: translationService.translate('reco.sent.in_app.subject', subscriber.locale),
 		body: translationService.translate('reco.sent.in_app.body', subscriber.locale, {
@@ -27,6 +28,7 @@ export const recoSentWorkflow = workflow('reco_sent', async ({ payload, step, su
 	tags: ['reco'],
 	payloadSchema: z.object({
 		id: z.number().int().describe('The ID of the reco'),
+		type: z.literal(NotificationTypeEnum.reco_sent).describe('Type of notification'),
 		sender: z.object({
 			username: z.string().describe('The user who sent the reco'),
 			avatar: z
@@ -42,7 +44,7 @@ export const recoSentWorkflow = workflow('reco_sent', async ({ payload, step, su
 	})
 });
 
-export const recoCompletedWorkflow = workflow('reco_completed', async ({ payload, step, subscriber }) => {
+export const recoCompletedWorkflow = workflow(NotificationTypeEnum.reco_completed, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
 		subject: translationService.translate('reco.completed.in_app.subject', subscriber.locale),
 		body: translationService.translate('reco.completed.in_app.body', subscriber.locale, {
@@ -67,6 +69,7 @@ export const recoCompletedWorkflow = workflow('reco_completed', async ({ payload
 	tags: ['reco'],
 	payloadSchema: z.object({
 		id: z.number().int().describe('The ID of the reco'),
+		type: z.literal(NotificationTypeEnum.reco_completed).describe('Type of notification'),
 		receiver: z.object({
 			username: z.string().describe('The user who received the reco'),
 			avatar: z

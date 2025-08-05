@@ -1,8 +1,9 @@
 import { workflow } from "@novu/framework";
 import { z } from 'zod';
 import { translationService } from "../lib/i18n";
+import { NotificationTypeEnum } from "../types/type.db";
 
-export const followerCreatedWorkflow = workflow('follower_created', async ({ payload, step, subscriber }) => {
+export const followerCreatedWorkflow = workflow(NotificationTypeEnum.follower_created, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
 		subject: translationService.translate('follower.created.in_app.subject', subscriber.locale),
 		body: translationService.translate('follower.created.in_app.body', subscriber.locale, {
@@ -24,6 +25,7 @@ export const followerCreatedWorkflow = workflow('follower_created', async ({ pay
 	tags: ['follower'],
 	payloadSchema: z.object({
 		id: z.number().int().describe('The ID of the follower record'),
+		type: z.literal(NotificationTypeEnum.follower_created).describe('Type of notification'),
 		sender: z.object({
 			username: z.string().describe('The user who followed'),
 			avatar: z
@@ -35,7 +37,7 @@ export const followerCreatedWorkflow = workflow('follower_created', async ({ pay
 	})
 });
 
-export const followerRequestWorkflow = workflow('follower_request', async ({ payload, step, subscriber }) => {
+export const followerRequestWorkflow = workflow(NotificationTypeEnum.follower_request, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
 		subject: translationService.translate('follower.request.in_app.subject', subscriber.locale),
 		body: translationService.translate('follower.request.in_app.body', subscriber.locale, {
@@ -73,6 +75,7 @@ export const followerRequestWorkflow = workflow('follower_request', async ({ pay
 	tags: ['follower'],
 	payloadSchema: z.object({
 		id: z.number().int().describe('The ID of the follower record'),
+		type: z.literal(NotificationTypeEnum.follower_request).describe('Type of notification'),
 		sender: z.object({
 			username: z.string().describe('The user who sent the follower request'),
 			avatar: z
@@ -84,7 +87,7 @@ export const followerRequestWorkflow = workflow('follower_request', async ({ pay
 	})
 });
 
-export const followerAcceptedWorkflow = workflow('follower_accepted', async ({ payload, step, subscriber }) => {
+export const followerAcceptedWorkflow = workflow(NotificationTypeEnum.follower_accepted, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
 		subject: translationService.translate('follower.accepted.in_app.subject', subscriber.locale),
 		body: translationService.translate('follower.accepted.in_app.body', subscriber.locale, {
@@ -106,6 +109,7 @@ export const followerAcceptedWorkflow = workflow('follower_accepted', async ({ p
 	tags: ['follower'],
 	payloadSchema: z.object({
 		id: z.number().int().describe('The ID of the follower record'),
+		type: z.literal(NotificationTypeEnum.follower_accepted).describe('Type of notification'),
 		sender: z.object({
 			username: z.string().describe('The user who accepted the follower request'),
 			avatar: z

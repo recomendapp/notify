@@ -1,3 +1,4 @@
+import type { Database } from '../../../types/type.db.extended';
 import { NextFunction, Request, Response } from "express";
 import { novu } from "../../../lib/novu";
 import DBInvalidTableError from "../../../errors/DBInvalidTableError";

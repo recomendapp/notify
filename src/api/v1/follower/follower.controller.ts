@@ -22,9 +22,9 @@ class FollowerController implements Controller {
         case 'insert':
           await followerCreated(req, res, next);
           break;
-		case 'update':
-		  await followerAccepted(req, res, next);
-		  break;
+        case 'update':
+          await followerAccepted(req, res, next);
+          break;
         default:
           throw new DBInvalidEventTypeError(type);
       }

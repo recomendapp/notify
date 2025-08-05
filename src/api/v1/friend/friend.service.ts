@@ -3,6 +3,7 @@ import { supabase } from "../../../lib/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 import { recomend } from "../../../config/recomend";
 import { friendCreatedWorkflow } from "../../../workflows/friend.workflow";
+import { NotificationTypeEnum } from "../../../types/type.db";
 
 export const friendCreated = async (req: Request, res: Response, next: NextFunction) => {
 	const { record } = req.body;
@@ -23,6 +24,7 @@ export const friendCreated = async (req: Request, res: Response, next: NextFunct
 		to: record.user_id,
 		payload: {
 			id: record.id,
+			type: NotificationTypeEnum.friend_created,
 			friend: {
 				username: data.friend.username!,
 				avatar: data.friend.avatar_url!

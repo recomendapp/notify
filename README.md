@@ -32,3 +32,17 @@ cp .env.template .env.local
 # Add your environment variables to .env.local
 npm run dev
 ```
+
+## Novu
+
+### Run Novu locally
+```bash
+npx novu@latest dev --port 9000
+```
+
+### Push Workflows to Novu
+```bash
+npx novu@latest sync \
+  --bridge-url {{YOUR_BRIDGE_URL}} \
+  --secret-key {{SECRET_KEY}} # DEV or PROD
+```

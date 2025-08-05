@@ -3,6 +3,7 @@ import { supabase } from "../../../lib/supabase";
 import { recoCompletedWorkflow, recoSentWorkflow } from "../../../workflows/reco.workflow";
 import { PostgrestError } from "@supabase/supabase-js";
 import { recomend } from "../../../config/recomend";
+import { NotificationTypeEnum } from "../../../types/type.db";
 
 export const recoSent = async (req: Request, res: Response, next: NextFunction) => {
 	const { record } = req.body;
@@ -37,6 +38,7 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 		to: record.user_id,
 		payload: {
 			id: record.id,
+			type: NotificationTypeEnum.reco_sent,
 			sender: {
 				username: data.sender?.username!,
 				avatar: data.sender?.avatar_url!
@@ -101,6 +103,7 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 		to: record.sender_id,
 		payload: {
 			id: record.id,
+			type: NotificationTypeEnum.reco_completed,
 			receiver: {
 				username: data.receiver?.username!,
 				avatar: data.receiver?.avatar_url!

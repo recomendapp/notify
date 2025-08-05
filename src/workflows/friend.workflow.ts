@@ -1,8 +1,9 @@
 import { workflow } from "@novu/framework";
 import { z } from 'zod';
 import { translationService } from "../lib/i18n";
+import { NotificationTypeEnum } from "../types/type.db";
 
-export const friendCreatedWorkflow = workflow('friend_created', async ({ payload, step, subscriber }) => {
+export const friendCreatedWorkflow = workflow(NotificationTypeEnum.friend_created, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
 		subject: translationService.translate('friend.created.in_app.subject', subscriber.locale),
 		body: translationService.translate('friend.created.in_app.body', subscriber.locale, {
@@ -24,6 +25,7 @@ export const friendCreatedWorkflow = workflow('friend_created', async ({ payload
 	tags: ['friend'],
 	payloadSchema: z.object({
 		id: z.number().int().describe('The ID of the friend record'),
+		type: z.literal(NotificationTypeEnum.friend_created).describe('Type of notification'),
 		friend: z.object({
 			username: z.string().describe('The user who you are now friends with'),
 			avatar: z
