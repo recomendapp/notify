@@ -2,6 +2,8 @@ import { workflow } from "@novu/framework";
 import { z } from 'zod';
 import { translationService } from "../lib/i18n";
 import { NotificationTypeEnum } from "../types/type.db";
+import { recoSentSchema } from "../types/notifications/schemas/reco-sent.schema";
+import { recoCompletedSchema } from "../types/notifications/schemas/reco-completed.schema";
 
 export const recoSentWorkflow = workflow(NotificationTypeEnum.reco_sent, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
@@ -26,22 +28,7 @@ export const recoSentWorkflow = workflow(NotificationTypeEnum.reco_sent, async (
 	}));
 }, {
 	tags: ['reco'],
-	payloadSchema: z.object({
-		id: z.number().int().describe('The ID of the reco'),
-		type: z.literal(NotificationTypeEnum.reco_sent).describe('Type of notification'),
-		sender: z.object({
-			username: z.string().describe('The user who sent the reco'),
-			avatar: z
-				.string()
-				.nullable()
-				.optional()
-				.describe('The avatar of the user who sent the reco')
-		}),
-		media: z.object({
-			title: z.string().describe('The media that was recommended'),
-			url: z.string().describe('The url of the media that was recommended')
-		}),
-	})
+	payloadSchema: recoSentSchema
 });
 
 export const recoCompletedWorkflow = workflow(NotificationTypeEnum.reco_completed, async ({ payload, step, subscriber }) => {
@@ -67,22 +54,7 @@ export const recoCompletedWorkflow = workflow(NotificationTypeEnum.reco_complete
 	}));
 }, {
 	tags: ['reco'],
-	payloadSchema: z.object({
-		id: z.number().int().describe('The ID of the reco'),
-		type: z.literal(NotificationTypeEnum.reco_completed).describe('Type of notification'),
-		receiver: z.object({
-			username: z.string().describe('The user who received the reco'),
-			avatar: z
-				.string()
-				.nullable()
-				.optional()
-				.describe('The avatar of the user who received the reco')
-		}),
-		media: z.object({
-			title: z.string().describe('The media that was recommended'),
-			url: z.string().describe('The url of the media that was recommended')
-		}),
-	})
+	payloadSchema: recoCompletedSchema
 });
 
 export const recoWorkflows = [recoSentWorkflow, recoCompletedWorkflow];

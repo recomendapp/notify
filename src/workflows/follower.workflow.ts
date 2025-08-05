@@ -2,6 +2,9 @@ import { workflow } from "@novu/framework";
 import { z } from 'zod';
 import { translationService } from "../lib/i18n";
 import { NotificationTypeEnum } from "../types/type.db";
+import { followerAcceptedSchema } from "../types/notifications/schemas/follower-accepted.schema";
+import { followerRequestSchema } from "../types/notifications/schemas/follower-request.schema";
+import { followerCreatedSchema } from "../types/notifications/schemas/follower-created.schema";
 
 export const followerCreatedWorkflow = workflow(NotificationTypeEnum.follower_created, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({
@@ -23,18 +26,7 @@ export const followerCreatedWorkflow = workflow(NotificationTypeEnum.follower_cr
 	}));
 }, {
 	tags: ['follower'],
-	payloadSchema: z.object({
-		id: z.number().int().describe('The ID of the follower record'),
-		type: z.literal(NotificationTypeEnum.follower_created).describe('Type of notification'),
-		sender: z.object({
-			username: z.string().describe('The user who followed'),
-			avatar: z
-				.string()
-				.nullable()
-				.optional()
-				.describe('The avatar of the user who followed')
-		})
-	})
+	payloadSchema: followerCreatedSchema
 });
 
 export const followerRequestWorkflow = workflow(NotificationTypeEnum.follower_request, async ({ payload, step, subscriber }) => {
@@ -73,18 +65,7 @@ export const followerRequestWorkflow = workflow(NotificationTypeEnum.follower_re
 	}));
 }, {
 	tags: ['follower'],
-	payloadSchema: z.object({
-		id: z.number().int().describe('The ID of the follower record'),
-		type: z.literal(NotificationTypeEnum.follower_request).describe('Type of notification'),
-		sender: z.object({
-			username: z.string().describe('The user who sent the follower request'),
-			avatar: z
-				.string()
-				.nullable()
-				.optional()
-				.describe('The avatar of the user who sent the follower request')
-		})
-	})
+	payloadSchema: followerRequestSchema
 });
 
 export const followerAcceptedWorkflow = workflow(NotificationTypeEnum.follower_accepted, async ({ payload, step, subscriber }) => {
@@ -107,18 +88,7 @@ export const followerAcceptedWorkflow = workflow(NotificationTypeEnum.follower_a
 	}));
 }, {
 	tags: ['follower'],
-	payloadSchema: z.object({
-		id: z.number().int().describe('The ID of the follower record'),
-		type: z.literal(NotificationTypeEnum.follower_accepted).describe('Type of notification'),
-		sender: z.object({
-			username: z.string().describe('The user who accepted the follower request'),
-			avatar: z
-				.string()
-				.nullable()
-				.optional()
-				.describe('The avatar of the user who accepted the follower request')
-		})
-	})
+	payloadSchema: followerAcceptedSchema
 });
 
 export const followerWorkflows = [followerCreatedWorkflow, followerRequestWorkflow, followerAcceptedWorkflow];
