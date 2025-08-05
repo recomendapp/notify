@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { supabase } from "../../../lib/supabase";
-import { PostgrestError } from "@supabase/supabase-js";
 import { recomend } from "../../../config/recomend";
 import { friendCreatedWorkflow } from "../../../workflows/friend.workflow";
 import { NotificationTypeEnum } from "../../../types/type.db";
