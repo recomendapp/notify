@@ -80,7 +80,6 @@ export const updateSubscriber = async (req: Request, res: Response, next: NextFu
 /* --------------------------------- Tokens --------------------------------- */
 
 export const manageFcmTokens = async (user_id: string, tokens: Database['public']['Tables']['user_notification_tokens']['Row'][]) => {
-	if (tokens.length === 0) return;
 	await novu.subscribers.setCredentials(
 		user_id,
 		PushProviderIdEnum.FCM,
@@ -92,7 +91,6 @@ export const manageFcmTokens = async (user_id: string, tokens: Database['public'
 };
 
 export const manageExpoTokens = async (user_id: string, tokens: Database['public']['Tables']['user_notification_tokens']['Row'][]) => {
-	if (tokens.length === 0) return;
 	await novu.subscribers.setCredentials(
 		user_id,
 		PushProviderIdEnum.EXPO,
@@ -104,7 +102,6 @@ export const manageExpoTokens = async (user_id: string, tokens: Database['public
 };
 
 export const manageAPNSTokens = async (user_id: string, tokens: Database['public']['Tables']['user_notification_tokens']['Row'][]) => {
-	if (tokens.length === 0) return;
 	await novu.subscribers.setCredentials(
 		user_id,
 		PushProviderIdEnum.APNS,
