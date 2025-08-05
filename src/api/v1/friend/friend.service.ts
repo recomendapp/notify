@@ -8,9 +8,9 @@ export const friendCreated = async (req: Request, res: Response, next: NextFunct
 	const { record } = req.body;
 	const { data, error: errFriend } = await supabase
 		.from('user_friend')
-		.select('friend:friend_id(*)')
+		.select('friend:user!friend_id(*)')
 		.eq('id', record.id)
-		.single() as { data: any, error: PostgrestError | null };
+		.single();
 	
 	if (errFriend || !data) {
 		if (errFriend)
@@ -24,8 +24,8 @@ export const friendCreated = async (req: Request, res: Response, next: NextFunct
 		payload: {
 			id: record.id,
 			friend: {
-				username: data.friend?.username!,
-				avatar: data.friend?.avatar_url!
+				username: data.friend.username!,
+				avatar: data.friend.avatar_url!
 			}
 		},
 		overrides: {

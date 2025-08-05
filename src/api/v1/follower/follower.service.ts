@@ -8,9 +8,9 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 	const { record } = req.body;
 	const { data, error: errFollower } = await supabase
 		.from('user_follower')
-		.select('sender:user_id(*)')
+		.select('sender:user!user_id(*)')
 		.eq('id', record.id)
-		.single() as { data: any, error: PostgrestError | null };
+		.single();
 	
 	if (errFollower || !data) {
 		if (errFollower)
@@ -25,8 +25,8 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 			payload: {
 				id: record.id,
 				sender: {
-					username: data.sender?.username!,
-					avatar: data.sender?.avatar_url!
+					username: data.sender.username!,
+					avatar: data.sender.avatar_url!
 				}
 			},
 			overrides: {
@@ -48,8 +48,8 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 			payload: {
 				id: record.id,
 				sender: {
-					username: data.sender?.username!,
-					avatar: data.sender?.avatar_url!
+					username: data.sender.username!,
+					avatar: data.sender.avatar_url!
 				}
 			},
 			overrides: {
@@ -75,9 +75,9 @@ export const followerAccepted = async (req: Request, res: Response, next: NextFu
 	}
 	const { data, error: errFollower } = await supabase
 		.from('user_follower')
-		.select('followee:followee_id(*)')
+		.select('followee:user!followee_id(*)')
 		.eq('id', record.id)
-		.single() as { data: any, error: PostgrestError | null };
+		.single();
 	
 	if (errFollower || !data) {
 		if (errFollower)
@@ -91,8 +91,8 @@ export const followerAccepted = async (req: Request, res: Response, next: NextFu
 		payload: {
 			id: record.id,
 			sender: {
-				username: data.followee?.username!,
-				avatar: data.followee?.avatar_url!
+				username: data.followee.username!,
+				avatar: data.followee.avatar_url!
 			}
 		},
 		overrides: {

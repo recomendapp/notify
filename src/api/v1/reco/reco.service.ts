@@ -8,9 +8,9 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 	const { record } = req.body;
 	const { data, error: errSender } = await supabase
 		.from('user_recos')
-		.select('receiver:user_id(*),sender:sender_id(*)')
+		.select('receiver:user!user_id(*),sender:user!sender_id(*)')
 		.eq('id', record.id)
-		.single() as { data: any, error: PostgrestError | null };
+		.single();
 	
 	if (errSender || !data) {
 		if (errSender)
@@ -72,9 +72,9 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 
 	const { data, error: errReceiver } = await supabase
 		.from('user_recos')
-		.select('receiver:user_id(*),sender:sender_id(*)')
+		.select('receiver:user!user_id(*),sender:user!sender_id(*)')
 		.eq('id', record.id)
-		.single() as { data: any, error: PostgrestError | null };
+		.single();
 
 	if (errReceiver || !data) {
 		if (errReceiver)

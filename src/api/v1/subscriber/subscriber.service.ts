@@ -77,7 +77,7 @@ export const updateSubscriber = async (req: Request, res: Response, next: NextFu
 
 /* --------------------------------- Tokens --------------------------------- */
 
-export const manageFcmTokens = async (user_id: string, tokens: any[]) => {
+export const manageFcmTokens = async (user_id: string, tokens: Database['public']['Tables']['user_notification_tokens']['Row'][]) => {
 	if (tokens.length === 0) return;
 	await novu.subscribers.setCredentials(
 		user_id,
@@ -89,7 +89,7 @@ export const manageFcmTokens = async (user_id: string, tokens: any[]) => {
 	);
 };
 
-export const manageExpoTokens = async (user_id: string, tokens: any[]) => {
+export const manageExpoTokens = async (user_id: string, tokens: Database['public']['Tables']['user_notification_tokens']['Row'][]) => {
 	if (tokens.length === 0) return;
 	await novu.subscribers.setCredentials(
 		user_id,
@@ -101,7 +101,7 @@ export const manageExpoTokens = async (user_id: string, tokens: any[]) => {
 	);
 };
 
-export const manageAPNSTokens = async (user_id: string, tokens: any[]) => {
+export const manageAPNSTokens = async (user_id: string, tokens: Database['public']['Tables']['user_notification_tokens']['Row'][]) => {
 	if (tokens.length === 0) return;
 	await novu.subscribers.setCredentials(
 		user_id,

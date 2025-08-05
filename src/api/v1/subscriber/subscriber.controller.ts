@@ -52,9 +52,9 @@ class SubscriberController implements Controller {
         .eq('user_id', record.user_id);
       if (errTokens) throw errTokens;
       await Promise.all([
-        manageFcmTokens(record.user_id, data.filter((token: any) => token.provider === 'fcm')),
-        manageExpoTokens(record.user_id, data.filter((token: any) => token.provider === 'expo')),
-        manageAPNSTokens(record.user_id, data.filter((token: any) => token.provider === 'apns')),
+        manageFcmTokens(record.user_id, data.filter((token) => token.provider === 'fcm')),
+        manageExpoTokens(record.user_id, data.filter((token) => token.provider === 'expo')),
+        manageAPNSTokens(record.user_id, data.filter((token) => token.provider === 'apns')),
       ]);
       res.send('Tokens managed');
     } catch (error) {
