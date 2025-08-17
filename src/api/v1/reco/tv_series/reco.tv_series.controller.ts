@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import Controller from '../../../interfaces/controller.interface';
-import DBInvalidEventTypeError from '../../../errors/DBInvalidEventTypeError';
-import { recoCompleted, recoSent } from './reco.service';
+import Controller from '../../../../interfaces/controller.interface';
+import DBInvalidEventTypeError from '../../../../errors/DBInvalidEventTypeError';
+import { recoTvSeriesCompleted, recoTvSeriesSent } from './reco.tv_series.service';
 
-class RecoController implements Controller {
-  public path = '/reco';
+class RecoTvSeriesController implements Controller {
+  public path = '/reco/tv_series';
   public router = Router();
 
   constructor() {
@@ -20,10 +20,10 @@ class RecoController implements Controller {
       const { type } = req.body;
       switch (type.toLowerCase()) {
         case 'insert':
-          await recoSent(req, res, next);
+          await recoTvSeriesSent(req, res, next);
           break;
         case 'update':
-          await recoCompleted(req, res, next);
+          await recoTvSeriesCompleted(req, res, next);
           break;
         default:
           throw new DBInvalidEventTypeError(type);
@@ -34,4 +34,4 @@ class RecoController implements Controller {
   }
 }
 
-export default RecoController;
+export default RecoTvSeriesController;

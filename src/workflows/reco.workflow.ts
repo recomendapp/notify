@@ -1,5 +1,4 @@
 import { workflow } from "@novu/framework";
-import { z } from 'zod';
 import { translationService } from "../lib/i18n";
 import { NotificationTypeEnum } from "../types/type.db";
 import { recoSentSchema } from "../types/notifications/schemas/reco-sent.schema";

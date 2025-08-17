@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import { supabase } from "../../../lib/supabase";
-import { recoCompletedWorkflow, recoSentWorkflow } from "../../../workflows/reco.workflow";
-import { recomend } from "../../../config/recomend";
-import { NotificationTypeEnum } from "../../../types/type.db";
+import { supabase } from "../../../../lib/supabase";
+import { recoCompletedWorkflow, recoSentWorkflow } from "../../../../workflows/reco.workflow";
+import { recomend } from "../../../../config/recomend";
+import { NotificationTypeEnum } from "../../../../types/type.db";
 
-export const recoSent = async (req: Request, res: Response, next: NextFunction) => {
+export const recoMovieSent = async (req: Request, res: Response, next: NextFunction) => {
 	const { record } = req.body;
 	const { data, error: errSender } = await supabase
-		.from('user_recos')
+		.from('user_recos_movie')
 		.select('receiver:user!user_id(*),sender:user!sender_id(*)')
 		.eq('id', record.id)
 		.single();
@@ -19,18 +19,18 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 			throw new Error('Record not found');
 	}
 
-	const { data: media, error: errMedia } = await supabase
-		.from('media')
+	const { data: movie, error: errMovie } = await supabase
+		.from('media_movie')
 		.select('*')
-		.eq('media_id', record.media_id)
+		.eq('id', record.movie_id)
 		.setHeader('language', data.receiver.language)
 		.single()
 
-	if (errMedia || !media) {
-		if (errMedia)
-			throw new Error(errMedia.message);
+	if (errMovie || !movie) {
+		if (errMovie)
+			throw new Error(errMovie.message);
 		else
-			throw new Error('Media not found');
+			throw new Error('Movie not found');
 	}
 
 	const payload = {
@@ -41,15 +41,17 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 			avatar: data.sender?.avatar_url!
 		},
 		media: {
-			title: media.title ?? String(media.media_id),
-			url: media.url ?? ''
+			id: movie.id,
+			type: 'movie',
+			title: movie.title ?? String(movie.id),
+			url: movie.url ?? ''
 		}
 	};
 	const fcmOptions = {
 		imageUrl: recomend.iconUrl[100],
 		webPush: {
 			fcmOptions: {
-				link: media.url,
+				link: movie.url,
 			},
 		},
 	};
@@ -71,7 +73,7 @@ export const recoSent = async (req: Request, res: Response, next: NextFunction) 
 	res.send('Reco sent');
 };
 
-export const recoCompleted = async (req: Request, res: Response, next: NextFunction) => {
+export const recoMovieCompleted = async (req: Request, res: Response, next: NextFunction) => {
 	const { record, old_record } = req.body;
 	if (record.status !== 'completed') {
 		throw new Error('Invalid status');
@@ -81,7 +83,7 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 	}
 
 	const { data, error: errReceiver } = await supabase
-		.from('user_recos')
+		.from('user_recos_movie')
 		.select('receiver:user!user_id(*),sender:user!sender_id(*)')
 		.eq('id', record.id)
 		.single();
@@ -93,18 +95,18 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 			throw new Error('Record not found');
 	}
 
-	const { data: media, error: errMedia } = await supabase
-		.from('media')
+	const { data: movie, error: errMovie } = await supabase
+		.from('media_movie')
 		.select('*')
-		.eq('media_id', record.media_id)
+		.eq('id', record.movie_id)
 		.setHeader('language', data.sender.language)
 		.single()
 	
-	if (errMedia || !media) {
-		if (errMedia)
-			throw new Error(errMedia.message);
+	if (errMovie || !movie) {
+		if (errMovie)
+			throw new Error(errMovie.message);
 		else
-			throw new Error('Media not found');
+			throw new Error('Movie not found');
 	}
 
 	const payload = {
@@ -115,15 +117,17 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 			avatar: data.receiver?.avatar_url!
 		},
 		media: {
-			title: media.title ?? String(media.media_id),
-			url: media.url ?? ''
+			id: movie.id,
+			type: 'movie',
+			title: movie.title ?? String(movie.id),
+			url: movie.url ?? ''
 		}
 	};
 	const fcmOptions = {
 		imageUrl: recomend.iconUrl[100],
 		webPush: {
 			fcmOptions: {
-				link: media.url,
+				link: movie.url,
 			},
 		},
 	};
@@ -143,4 +147,4 @@ export const recoCompleted = async (req: Request, res: Response, next: NextFunct
 	})
 
 	res.send('Reco completed');
-}
+};
