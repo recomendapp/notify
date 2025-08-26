@@ -1,8 +1,8 @@
 import { workflow } from "@novu/framework";
 import { z } from 'zod';
 import { translationService } from "../lib/i18n";
-import { NotificationTypeEnum } from "../types/type.db";
-import { friendCreatedSchema } from "../types/notifications/schemas/friend-created.schema";
+import { NotificationTypeEnum } from "@recomendapp/types/dist";
+import { friendCreatedSchema } from "@recomendapp/types/dist/notifications/schemas/friend-created.schema";
 
 export const friendCreatedWorkflow = workflow(NotificationTypeEnum.friend_created, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({

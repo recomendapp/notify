@@ -1,8 +1,8 @@
 import { workflow } from "@novu/framework";
 import { translationService } from "../lib/i18n";
-import { NotificationTypeEnum } from "../types/type.db";
-import { recoSentSchema } from "../types/notifications/schemas/reco-sent.schema";
-import { recoCompletedSchema } from "../types/notifications/schemas/reco-completed.schema";
+import { NotificationTypeEnum } from "@recomendapp/types/dist";
+import { recoSentSchema } from "@recomendapp/types/dist/notifications/schemas/reco-sent.schema";
+import { recoCompletedSchema } from "@recomendapp/types/dist/notifications/schemas/reco-completed.schema";
 
 export const recoSentWorkflow = workflow(NotificationTypeEnum.reco_sent, async ({ payload, step, subscriber }) => {
 	await step.inApp('notify-in-app', () => ({

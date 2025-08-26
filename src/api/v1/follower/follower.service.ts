@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { supabase } from "../../../lib/supabase";
 import { followerAcceptedWorkflow, followerCreatedWorkflow, followerRequestWorkflow } from "../../../workflows/follower.workflow";
 import { recomend } from "../../../config/recomend";
-import { NotificationTypeEnum } from "../../../types/type.db";
+import { NotificationTypeEnum } from "@recomendapp/types/dist";
 
 export const followerCreated = async (req: Request, res: Response, next: NextFunction) => {
 	const { record } = req.body;

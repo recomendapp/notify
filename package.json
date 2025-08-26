@@ -1,5 +1,5 @@
 {
-  "name": "notify",
+  "name": "@recomendapp/notify",
   "version": "1.0.0",
   "engines": {
     "node": ">=20"
@@ -18,16 +18,17 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@novu/framework": "^2.4.0",
+    "@novu/framework": "^2.6.7",
     "@novu/node": "^2.0.1",
-    "@supabase/supabase-js": "^2.46.1",
+    "@recomendapp/types": "github:recomendapp/types",
+    "@supabase/supabase-js": "^2.56.0",
     "body-parser": "^1.20.3",
     "deepmerge": "^4.3.1",
     "dotenv": "^16.4.5",
     "envalid": "^8.0.0",
     "express": "^4.21.1",
-    "zod": "^3.23.8",
-    "zod-to-json-schema": "^3.23.5"
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.24.6"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { supabase } from "../../../../lib/supabase";
 import { recoCompletedWorkflow, recoSentWorkflow } from "../../../../workflows/reco.workflow";
 import { recomend } from "../../../../config/recomend";
-import { NotificationTypeEnum } from "../../../../types/type.db";
+import { NotificationTypeEnum } from "@recomendapp/types/dist";
 
 export const recoTvSeriesSent = async (req: Request, res: Response, next: NextFunction) => {
 	const { record } = req.body;
