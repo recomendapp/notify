@@ -20,7 +20,7 @@
   "dependencies": {
     "@novu/framework": "^2.6.7",
     "@novu/node": "^2.0.1",
-    "@recomendapp/types": "github:recomendapp/types",
+    "@recomendapp/types": "^1.0.0",
     "@supabase/supabase-js": "^2.56.0",
     "body-parser": "^1.20.3",
     "deepmerge": "^4.3.1",
