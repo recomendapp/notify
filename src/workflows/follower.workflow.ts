@@ -40,13 +40,9 @@ export const followerRequestWorkflow = workflow(NotificationTypeEnum.follower_re
 			url: `/@${payload.sender.username}`,
 		},
 		primaryAction: {
-			key: FollowerEnum.actions.followerRequestAccept,
-			id: payload.id,
 			label: translationService.translate('follower.request.in_app.primary_action', subscriber.locale),
 		},
 		secondaryAction: {
-			key: FollowerEnum.actions.followerRequestDecline,
-			id: payload.id,
 			label: translationService.translate('follower.request.in_app.secondary_action', subscriber.locale),
 		},
 		data: payload
