@@ -35,7 +35,7 @@ export const recoMovieSent = async (req: Request, res: Response, next: NextFunct
 
 	const payload = {
 		id: record.id,
-		type: NotificationTypeEnum.reco_sent,
+		type: NotificationTypeEnum.reco_sent_movie,
 		sender: {
 			id: data.sender.id,
 			username: data.sender.username,
@@ -112,7 +112,7 @@ export const recoMovieCompleted = async (req: Request, res: Response, next: Next
 
 	const payload = {
 		id: record.id,
-		type: NotificationTypeEnum.reco_completed,
+		type: NotificationTypeEnum.reco_completed_movie,
 		receiver: {
 			id: data.receiver.id,
 			username: data.receiver.username,
