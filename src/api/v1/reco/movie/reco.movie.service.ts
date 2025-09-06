@@ -37,8 +37,9 @@ export const recoMovieSent = async (req: Request, res: Response, next: NextFunct
 		id: record.id,
 		type: NotificationTypeEnum.reco_sent,
 		sender: {
-			username: data.sender?.username!,
-			avatar: data.sender?.avatar_url!
+			id: data.sender.id,
+			username: data.sender.username,
+			avatar: data.sender.avatar_url
 		},
 		media: {
 			id: movie.id,
@@ -113,8 +114,9 @@ export const recoMovieCompleted = async (req: Request, res: Response, next: Next
 		id: record.id,
 		type: NotificationTypeEnum.reco_completed,
 		receiver: {
-			username: data.receiver?.username!,
-			avatar: data.receiver?.avatar_url!
+			id: data.receiver.id,
+			username: data.receiver.username,
+			avatar: data.receiver.avatar_url
 		},
 		media: {
 			id: movie.id,

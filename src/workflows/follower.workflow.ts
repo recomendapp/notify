@@ -1,6 +1,6 @@
 import { workflow } from "@novu/framework";
 import { translationService } from "../lib/i18n";
-import { NotificationTypeEnum } from "@recomendapp/types/dist";
+import { FollowerEnum, NotificationTypeEnum } from "@recomendapp/types/dist";
 import { followerCreatedSchema } from "@recomendapp/types/dist/notifications/schemas/follower-created.schema";
 import { followerRequestSchema } from "@recomendapp/types/dist/notifications/schemas/follower-request.schema";
 import { followerAcceptedSchema } from "@recomendapp/types/dist/notifications/schemas/follower-accepted.schema";
@@ -14,7 +14,8 @@ export const followerCreatedWorkflow = workflow(NotificationTypeEnum.follower_cr
 		avatar: payload.sender.avatar || undefined,
 		redirect: {
 			url: `/@${payload.sender.username}`,
-		}
+		},
+		data: payload
 	}));
 
 	await step.push('notify-push', () => ({
@@ -39,21 +40,16 @@ export const followerRequestWorkflow = workflow(NotificationTypeEnum.follower_re
 			url: `/@${payload.sender.username}`,
 		},
 		primaryAction: {
+			key: FollowerEnum.actions.followerRequestAccept,
+			id: payload.id,
 			label: translationService.translate('follower.request.in_app.primary_action', subscriber.locale),
 		},
 		secondaryAction: {
+			key: FollowerEnum.actions.followerRequestDecline,
+			id: payload.id,
 			label: translationService.translate('follower.request.in_app.secondary_action', subscriber.locale),
 		},
-		data: {
-			primaryAction: {
-				key: 'follower_request_accept',
-				id: payload.id,
-			},
-			secondaryAction: {
-				key: 'follower_request_decline',
-				id: payload.id,
-			},
-		}
+		data: payload
 	}));
 
 	await step.push('notify-push', () => ({
@@ -76,7 +72,8 @@ export const followerAcceptedWorkflow = workflow(NotificationTypeEnum.follower_a
 		avatar: payload.sender.avatar || undefined,
 		redirect: {
 			url: `/@${payload.sender.username}`,
-		}
+		},
+		data: payload
 	}));
 
 	await step.push('notify-push', () => ({

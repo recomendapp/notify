@@ -23,8 +23,9 @@ export const friendCreated = async (req: Request, res: Response, next: NextFunct
 		id: record.id,
 		type: NotificationTypeEnum.friend_created,
 		friend: {
-			username: data.friend.username!,
-			avatar: data.friend.avatar_url!
+			id: data.friend.id,
+			username: data.friend.username,
+			avatar: data.friend.avatar_url
 		}
 	};
 	const fcmOptions = {

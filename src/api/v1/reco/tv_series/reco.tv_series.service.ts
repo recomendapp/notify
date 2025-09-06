@@ -37,8 +37,9 @@ export const recoTvSeriesSent = async (req: Request, res: Response, next: NextFu
 		id: record.id,
 		type: NotificationTypeEnum.reco_sent,
 		sender: {
-			username: data.sender?.username!,
-			avatar: data.sender?.avatar_url!
+			id: data.sender.id,
+			username: data.sender.username,
+			avatar: data.sender.avatar_url
 		},
 		media: {
 			id: tvSeries.id,
@@ -113,8 +114,9 @@ export const recoTvSeriesCompleted = async (req: Request, res: Response, next: N
 		id: record.id,
 		type: NotificationTypeEnum.reco_completed,
 		receiver: {
-			username: data.receiver?.username!,
-			avatar: data.receiver?.avatar_url!
+			id: data.receiver.id,
+			username: data.receiver.username,
+			avatar: data.receiver.avatar_url
 		},
 		media: {
 			id: tvSeries.id,

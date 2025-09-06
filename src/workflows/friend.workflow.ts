@@ -13,7 +13,8 @@ export const friendCreatedWorkflow = workflow(NotificationTypeEnum.friend_create
 		avatar: payload.friend.avatar || undefined,
 		redirect: {
 			url: `/@${payload.friend.username}`,
-		}
+		},
+		data: payload
 	}));
 
 	await step.push('notify-push', () => ({

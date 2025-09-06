@@ -15,7 +15,8 @@ export const recoSentWorkflow = workflow(NotificationTypeEnum.reco_sent, async (
 		avatar: payload.sender.avatar || undefined,
 		redirect: {
 			url: `/collection/my-recos#${payload.id}`
-		}
+		},
+		data: payload
 	}));
 
 	await step.push('notify-push', () => ({
@@ -41,7 +42,8 @@ export const recoCompletedWorkflow = workflow(NotificationTypeEnum.reco_complete
 		avatar: payload.receiver.avatar || undefined,
 		redirect: {
 			url: `/@${payload.receiver.username}`,
-		}
+		},
+		data: payload
 	}));
 
 	await step.push('notify-push', () => ({

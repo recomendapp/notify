@@ -20,8 +20,9 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 		id: record.id,
 		type: record.is_pending ? NotificationTypeEnum.follower_request : NotificationTypeEnum.follower_created,
 		sender: {
-			username: data.sender.username!,
-			avatar: data.sender.avatar_url!
+			id: data.sender.id,
+			username: data.sender.username,
+			avatar: data.sender.avatar_url
 		}
 	};
 
@@ -86,8 +87,9 @@ export const followerAccepted = async (req: Request, res: Response, next: NextFu
 		id: record.id,
 		type: NotificationTypeEnum.follower_accepted,
 		sender: {
-			username: data.followee.username!,
-			avatar: data.followee.avatar_url!
+			id: data.followee.id,
+			username: data.followee.username,
+			avatar: data.followee.avatar_url
 		}
 	};
 
