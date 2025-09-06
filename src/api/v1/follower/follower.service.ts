@@ -18,7 +18,6 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 
 	const payload = {
 		id: record.id,
-		type: record.is_pending ? NotificationTypeEnum.follower_request : NotificationTypeEnum.follower_created,
 		sender: {
 			id: data.sender.id,
 			username: data.sender.username,
@@ -43,7 +42,10 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 	if (record.is_pending) {
 		await followerRequestWorkflow.trigger({
 			to: record.followee_id,
-			payload: payload,
+			payload: {
+				...payload,
+				type: NotificationTypeEnum.follower_request,
+			},
 			overrides: {
 				apns: apnsOptions,
 				fcm: fcmOptions,
@@ -54,7 +56,10 @@ export const followerCreated = async (req: Request, res: Response, next: NextFun
 	} else {
 		await followerCreatedWorkflow.trigger({
 			to: record.followee_id,
-			payload: payload,
+			payload: {
+				...payload,
+				type: NotificationTypeEnum.follower_created,
+			},
 			overrides: {
 				apns: apnsOptions,
 				fcm: fcmOptions,
