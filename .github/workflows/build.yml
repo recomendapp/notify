@@ -24,7 +24,7 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            --build-arg NPM_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             -t ghcr.io/${{ github.repository_owner }}/notify:latest .
 
       - name: Push image
