@@ -1,15 +1,15 @@
-name: Build & Publish Notification bridge with Novu
+name: Build & Deploy Notify
 
 on:
   push:
-    branches: [ main ]
+    branches: ["main"]
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
@@ -23,10 +23,40 @@ jobs:
 
       - name: Build image
         run: |
+          VERSION=$(date +%Y%m%d%H%M%S)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
           docker build \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
-            -t ghcr.io/${{ github.repository_owner }}/notify:latest .
+            -t ghcr.io/${{ github.repository_owner }}/notify:$VERSION .
+          docker tag ghcr.io/${{ github.repository_owner }}/notify:$VERSION ghcr.io/${{ github.repository_owner }}/notify:latest
 
       - name: Push image
         run: |
+          docker push ghcr.io/${{ github.repository_owner }}/notify:$VERSION
           docker push ghcr.io/${{ github.repository_owner }}/notify:latest
+
+      - name: Clone infra repo
+        run: |
+          git clone https://ci-bot:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository_owner }}/infra.git
+
+      - name: Update notify deployment image tag
+        run: |
+          cd infra/apps/services/notify
+          sed -i "s|image: ghcr.io.*/notify.*|image: ghcr.io/${{ github.repository_owner }}/notify:$VERSION|" deployment.yaml
+
+      - name: Commit manifest change
+        run: |
+          cd infra
+          git config user.name "ci-bot"
+          git config user.email "ci-bot@github.com"
+
+          git remote set-url origin https://ci-bot:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository_owner }}/infra.git
+
+          git add .
+          git commit -m "deploy: notify $VERSION" || echo "No changes to commit"
+          git push origin main
+        env:
+          GIT_AUTHOR_NAME: ci-bot
+          GIT_AUTHOR_EMAIL: ci-bot@github.com
+          GIT_COMMITTER_NAME: ci-bot
+          GIT_COMMITTER_EMAIL: ci-bot@github.com
